@@ -26,6 +26,7 @@ public class LoanServiceImpl implements LoanService {
 
     @Override
     public List<LoanDto> getAllLoans() {
+
         return this.loanRepository.findAll()
                 .stream()
                 .map(this::map)
@@ -44,8 +45,7 @@ public class LoanServiceImpl implements LoanService {
     public void createLoan(AddLoanDto addLoanDto) {
         Loan mappedLoan = map(addLoanDto);
         mappedLoan.setAuthorized(false);
-        mappedLoan.setStatus("Waiting....");
-        mappedLoan.setLoanUniqueIdentifier(UUID.randomUUID().toString());
+        mappedLoan.setStatus("Draft");
         mappedLoan.setDate( LocalDate.now());
         this.loanRepository.save(mappedLoan);
     }
@@ -68,7 +68,10 @@ public class LoanServiceImpl implements LoanService {
 
 
     private Loan map(AddLoanDto addLoanDto) {
-       return this.modelMapper.map(addLoanDto, Loan.class);
+        Loan loan = this.modelMapper.map(addLoanDto, Loan.class);
+        //implement so not to override a loan at id 1
+        loan.setId(null);
+        return loan;
     }
 }
 

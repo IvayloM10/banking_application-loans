@@ -7,6 +7,7 @@ import com.example.banking_application.banking_application_loans.services.LoanSe
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -34,7 +35,7 @@ public class LoanController {
     public ResponseEntity<LoanDto> createLoan(@RequestBody AddLoanDto addLoanDto) {
         LOGGER.info("Going to create an offer {}",addLoanDto);
         this.loanService.createLoan(addLoanDto);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @PutMapping("/{id}")

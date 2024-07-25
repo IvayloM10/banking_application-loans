@@ -19,7 +19,6 @@ public class LoanDto {
     private double rate;
     private String term;
     private LocalDate date;
-    private String loanUniqueIdentifier;
     private BigDecimal monthlyPayment;
     private String status;
 }
