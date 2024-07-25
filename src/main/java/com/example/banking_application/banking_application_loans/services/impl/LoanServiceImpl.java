@@ -45,6 +45,7 @@ public class LoanServiceImpl implements LoanService {
     public void createLoan(AddLoanDto addLoanDto) {
         Loan mappedLoan = map(addLoanDto);
         mappedLoan.setAuthorized(false);
+        mappedLoan.setRate(Double.parseDouble(String.valueOf(mappedLoan.getReturnAmount().divide(mappedLoan.getAmount()))));
         mappedLoan.setStatus("Draft");
         mappedLoan.setDate( LocalDate.now());
         this.loanRepository.save(mappedLoan);
@@ -52,13 +53,16 @@ public class LoanServiceImpl implements LoanService {
 
     @Override
     public void deleteLoan(Long id) {
+        System.out.println("delete");
         this.loanRepository.deleteById(id);
     }
 
     @Override
     public void updateLoan(Long id, LoanDto loanDto) {
+        System.out.println("update");
         Loan loan = this.loanRepository.findById(id).orElse(null);
         loan = this.modelMapper.map(loanDto,Loan.class);
+        this.loanRepository.save(loan);
     }
 
 
